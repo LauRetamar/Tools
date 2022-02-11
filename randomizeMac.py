@@ -20,16 +20,22 @@ def newMacAddress():
         mac = mac + ":"
     return mac[:-1]
 
-def changeMacAddress(macAddress):
-    subprocess.call(["sudo", "ifconfig", "enp0s3" ,"down"])
-    subprocess.call(["sudo", "ifconfig", "enp0s3" ,"hw", "ether", macAddress])
-    subprocess.call(["sudo", "ifconfig", "enp0s3" ,"up"])
+def changeMacAddress(macAddress, interface):
+    subprocess.call(["sudo", "ifconfig", interface ,"down"])
+    subprocess.call(["sudo", "ifconfig", interface ,"hw", "ether", macAddress])
+    subprocess.call(["sudo", "ifconfig", interface ,"up"])
 
 
-newMac = newMacAddress() 
+inputInterface = input("Interface: ")
+inputMac = input("(empty for random) MAC: ")
+
+if inputMac == "":
+    newMac = newMacAddress() 
+else:
+    newMac = inputMac
 
 print("New Mac: " + newMac)
-changeMacAddress(newMac)
+changeMacAddress(newMac, inputInterface)
 
 
 
